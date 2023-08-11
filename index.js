@@ -2,6 +2,10 @@ const redux = require('redux')
 const createStore = redux.createStore
 const bindActionCreators = redux.bindActionCreators
 const combineReducers = redux.combineReducers
+const applyMiddleware = redux.applyMiddleware
+
+const reduxLogger = require('redux-logger')
+const logger = reduxLogger.createLogger()
 
 // 这一步是在定义一个常量，用于标识 action 的类型
 const CAKE_ORDERED = "cake_ordered"
@@ -84,11 +88,11 @@ rootReducer = combineReducers({
 })
 
 // 这一步是在创建一个 store，它接收一个 reducer 作为参数
-const store = createStore(rootReducer)
-console.log('Initial state', store.getState())
+const store = createStore(rootReducer, applyMiddleware(logger))
+// console.log('Initial state', store.getState())
 
 //注册一个监听器，用于在每次 state 更新时打印日志，它返回一个函数用于注销监听器
-const unsubscribe = store.subscribe(() => console.log('Updated state', store.getState()))
+// const unsubscribe = store.subscribe(() => console.log('Updated state', store.getState()))
 
 // store.dispatch(cakeOrdered(2))
 // store.dispatch(cakeOrdered(2))
@@ -107,4 +111,4 @@ cakeActions.cakeRestocked(1)
 icecreamActions.icecreamOrdered(3)
 icecreamActions.icecreamRestocked(4)
 
-unsubscribe()
+// unsubscribe()
